@@ -3,8 +3,6 @@ export libmpfr
 
 using GMP_jll
 ## Global variables
-const PATH_list = String[]
-const LIBPATH_list = String[]
 PATH = ""
 LIBPATH = ""
 LIBPATH_env = "PATH"
@@ -31,9 +29,9 @@ function __init__()
 
     # Initialize PATH and LIBPATH environment variable listings
     global PATH_list, LIBPATH_list
+    append!.(Ref(PATH_list), (GMP_jll.PATH_list,))
+    append!.(Ref(LIBPATH_list), (GMP_jll.LIBPATH_list,))
 
-    append!(PATH_list, GMP_jll.PATH_list)
-    append!(LIBPATH_list, GMP_jll.LIBPATH_list)
     global libmpfr_path = abspath(joinpath(artifact"MPFR", libmpfr_splitpath...))
 
     # Manually `dlopen()` this right now so that future invocations
